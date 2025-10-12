@@ -37,19 +37,19 @@ logger = logging.getLogger(__name__)
 #============================================================================================Global Variables
 score = ""
 delete_msg_flag = 0
-tips_list = ['<u><i>Create a Budget</i></u>\n\nThis is arguably the most essential piece of money advice out there: Make a budget (and stick to it).\n\nThe author John C. Maxwell explains budgeting perfectly, <b>"A budget is telling your money where to go instead of wondering where it went."</b>',
-             '<u><i>Create a Financial Calendar</i></u>\n\nOkay, if you’re like many people, this list may already be making you anxious! If that’s you, it’s okay – you got this.\n\nPlus, this personal finance tip isn’t as scary as it sounds.\n\nTo create a financial calendar, set reminders for important financial tasks, such as paying quarterly taxes and checking your credit report. This quick financial tip can help to save you a ton of hassle down the road.',
-             '<u><i>Track Your Net Worth</i></u>\n\nYour net worth is the total sum of your assets minus the total sum of your debts. \n\nFor example, say you have ₹75,000 in the bank, a car worth ₹75,000, and ₹37,500 of credit card debt. Your assets are worth ₹1,50,000 and your debts are ₹37,500. So, your total net worth is ₹1,12,500.\n\nMonitor your net worth and keep trying to improve it. \n\nIf you have a ton of student loans, it’s not uncommon to have a net worth of – ₹75,00,000. If this is you, don’t stress – just take it one step at a time.\n\n(Oh, and remember that your net worth is not how much you’re worth as a person – you’re worth more than you can imagine!)',
-             '<u><i>Don’t Make Impulse Purchases</i></u>\n\nEveryone makes impulse purchases from time to time, but they can quickly drain your bank account.\n\nSo, the next time you see something you just ‘have’ to buy, wait a week before you hand over your cash.\n\nThe time will give you room for some perspective. Then, if you still want to buy it, you’ll know it’s definitely worth your money. Chances are, you’ll decide to keep your money.\n\nAs the cartoonist and journalist Kin Hubbard said, <b>"The safest way to double your money is to fold it over and put it in your pocket."</b>',
-             '<u><i>Get Clear About Your Debt</i></u>\n\nGulp. Really? Yep.\n\nStart by writing down the total amounts of everything you owe, as well as the interest rates, monthly minimum payments, and any loan payback lengths. Then, keep this document up to date.\n\n<b>"Remember, knowledge is power."</b>',
-             '<u><i>Understand Interest Rates</i></u>\n\nInterest rates are significant. \n\nThey determine which debts to pay off first and which credit cards to avoid. They also help us understand how debt works – compound interest is a cruel master.\n\nI mean, even Albert Einstein noted the importance of the concept: <b>"Compound interest is the eighth wonder of the world. He who understands it, earns it; he who doesn’t, pays it."</b>\n\nSo, make sure you understand the interest rates that affect your finances.',
-             '<u><i>Start Investing Today</i></u>\n\nWhen it comes to investing, time is key.\n\nCompound interest can revolutionize your finances over time, so start investing now and you’ll reap the rewards later. So, put your money to work for you now.']
+tips_list = ['<u><i>Create a Budget</i></u>\n\nThis is arguably the most essential piece of money advice out there: Make a budget (and stick to it).\n\nThe author John C. Maxwell explains budgeting pe[...]
+             '<u><i>Create a Financial Calendar</i></u>\n\nOkay, if you’re like many people, this list may already be making you anxious! If that’s you, it’s okay – you got this.\n\nPlus, this[...]
+             '<u><i>Track Your Net Worth</i></u>\n\nYour net worth is the total sum of your assets minus the total sum of your debts. \n\nFor example, say you have ₹75,000 in the bank, a car worth �[...]
+             '<u><i>Don’t Make Impulse Purchases</i></u>\n\nEveryone makes impulse purchases from time to time, but they can quickly drain your bank account.\n\nSo, the next time you see something y[...]
+             '<u><i>Get Clear About Your Debt</i></u>\n\nGulp. Really? Yep.\n\nStart by writing down the total amounts of everything you owe, as well as the interest rates, monthly minimum payments, a[...]
+             '<u><i>Understand Interest Rates</i></u>\n\nInterest rates are significant. \n\nThey determine which debts to pay off first and which credit cards to avoid. They also help us understand h[...]
+             '<u><i>Start Investing Today</i></u>\n\nWhen it comes to investing, time is key.\n\nCompound interest can revolutionize your finances over time, so start investing now and you’ll reap t[...]
 questions_dict = {
-    '1':"How much is your net worth?\n\n<u>Note</u>:\nNet Worth = Investment Assets - Liabilities\nInvestment Assets = {Gold, Shares, Mutual Funds, Saving Deposits, etc.}\nLiabilities = {Home loan, Car loan, Personal loan, etc.}",
+    '1':"How much is your net worth?\n\n<u>Note</u>:\nNet Worth = Investment Assets - Liabilities\nInvestment Assets = {Gold, Shares, Mutual Funds, Saving Deposits, etc.}\nLiabilities = {Home loan, Ca[...]
     '2':"How much is your income saving rate?\n\n<u>Note</u>:\nIncome Saving Rate = Percentage of your average monthly saving",
     '3':"How many people are dependent on your income?\n\n<u>Note</u>:\nPeople who rely on your income, such as spouse, children, etc.",
     '4':"What is the consistency of your job and your income?\n\n<u>Note</u>:\nLow = Fear of losing job\nModerate = Unsatisfied with job\nHigh = Satisfied with the job",
-    '5':"What's your level of expertise in share market?\n\n<u>Note</u>:\nNo knowledge = First time investor\nBeginner = Already a investor\nIntermediate = Investor with understanding of market\nExpert = Investor with analytical research and thinking\nProfessional =  Self investment and professional management",
+    '5':"What's your level of expertise in share market?\n\n<u>Note</u>:\nNo knowledge = First time investor\nBeginner = Already a investor\nIntermediate = Investor with understanding of market\nExper[...]
     '6':"Considering an investment of INR 1 Lakh, how much fall can you tolerate in one month time period?\n\n<u>Note</u>:\nCalculate accurately to the proportions",
     '7':"What's the maximum amount of time for which you can  tolerate the loss?\n\n<u>Note</u>:\nCalculate accurately to the proportions"}
 options_dict = {
@@ -94,32 +94,32 @@ connect_quest = {
     "Between 1 - 2 years":[7, 3], 
     "Between 2 - 3 years":[7, 4], 
     "Between 3 - 5 years":[7, 5]}
-options_list = ['Having only liabilities (Negative net worth)', 'Upto 12 times monthly expenses', '13 - 36 times monthly expenses', '37 - 48 times monthly expenses', '49 - 60 times monthly expenses', 'Upto 5%', '6 - 15%', '16 - 25%', '26 - 50%', '51 - 75%', 'No dependencies', '1 dependency', '2 dependencies', '3 dependencies', '4 or more dependecies', 'High', 'Moderate', 'Low', 'No knowledge', 'Beginner level', 'Intermediate level', 'Expert level', 'Professional level', '0 - 5%', '6 - 10%', '11 - 20%', '21 - 30%', 'More than 30%', 'Less than 3 months', 'Between 4 months - 1 year', 'Between 1 - 2 years', 'Between 2 - 3 years', 'Between 3 - 5 years']
+options_list = ['Having only liabilities (Negative net worth)', 'Upto 12 times monthly expenses', '13 - 36 times monthly expenses', '37 - 48 times monthly expenses', '49 - 60 times monthly expenses', [...]
 
 #===========================================================================================Command Functions
 def start(update: Update, context: CallbackContext) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action="typing")
     context.bot.send_message(chat_id=update.message.chat_id,
-                             text=f"Hello {update.message.from_user.first_name} ✋🏻, I can help you in assisting with your risk profile, financial information, personal finance tips, stock suggestions, predictions and many other financial services 💰\n\nBy using @FinalyticsBot, you are agreeing to our terms and conditions => Refer here - /terms 📋\n\nFor other information take my /help",
+                             text=f"Hello {update.message.from_user.first_name} ✋🏻, I can help you in assisting with your risk profile, financial information, personal finance tips, stock suggest[...]
                              parse_mode="html")
 
 def help(update: Update, context: CallbackContext) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action="typing")
     context.bot.send_message(chat_id=update.message.chat_id, 
-                             text="I can help you in providing most of the financial information I know!\n\nYou can control me by sending these commands\n\n<b><i>General</i>:</b>\n/start - (re)start the bot\n/help - commands list\n/about - bot information\n/contact - queries and feedback\n/terms - terms & conditions\n/developers - developers information\n/clear - delete chat history\n/subscribe - alerts & news updates\n\n<b><i>Financial</i>:</b>\n/riskprofiletest - know your risk profile\n/acceptedstocks - accepted  stocks document\n/stocks - stock predictions and information\n/tips - personal finance tips\n\nEnjoy yourslef by saving time with me in 📉📈📊",
+                             text="I can help you in providing most of the financial information I know!\n\nYou can control me by sending these commands\n\n<b><i>General</i>:</b>\n/start - (re)start t[...]
                              parse_mode="html")
 
 def about(update: Update, context: CallbackContext) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action="typing")
     context.bot.send_message(chat_id=update.message.chat_id, 
-                             text="FinalyticsBot 🤖 is the final year project bagged by the students of Amrita Vishwa Vidyapeetham, Bengaluru. Also, the project was taking towards excellence under the guidance of Amrita School of Engg. faculty 👥 \n\nContact <a href='https://t.me/yvsravan'>Admin</a> if you have any queries about the Bot API.",
+                             text="FinalyticsBot 🤖 is the final year project bagged by the students of Amrita Vishwa Vidyapeetham, Bengaluru. Also, the project was taking towards excellence under t[...]
                              parse_mode="html",
                              disable_web_page_preview=True)
 
 def contact(update: Update, context: CallbackContext) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action="typing")
     context.bot.send_message(chat_id=update.message.chat_id, 
-                             text="You can contact any of the ⬇️ below Admins in case of queries 🤔 or to provide your valuable feedback. \n\n💬 <a href='https://t.me/yvsravan'>Admin - 1</a>\n💬 <a href='https://t.me/Seb_5'>Admin - 2</a>\n💬 <a href='https://t.me/BobbyY4uH'>Admin - 3</a>\n💬 <a href='https://t.me/ajithpai07'>Admin - 4</a>\n",
+                             text="You can contact any of the ⬇️ below Admins in case of queries 🤔 or to provide your valuable feedback. \n\n💬 <a href='https://t.me/yvsravan'>Admin - 1</a>\n[...]
                              parse_mode="html",
                              disable_web_page_preview=True)
 
@@ -198,7 +198,7 @@ def stocks(update: Update, context: CallbackContext) -> None:
     context.bot.send_chat_action(chat_id=update.message.chat_id, action="typing")
     if(update.message.text=="/stocks" or update.message.text=="/stocks "):
         context.bot.send_message(chat_id=update.message.chat_id, 
-                                 text="You can find the accepted stocks symbols list at /acceptedstocks for getting desired stock details or value predictions.\n\nFor getting stocks details or stock value predictions input the below given command.\n<i><u>Syntax</u>:</i><code> /stocks [argument] [stock_symbol]</code>\n\narguments: {'-d' for details, '-p' for value predictions}",
+                                 text="You can find the accepted stocks symbols list at /acceptedstocks for getting desired stock details or value predictions.\n\nFor getting stocks details or stock v[...]
                                  parse_mode="html")
     else:
         command_list = update.message.text.split()
@@ -210,7 +210,7 @@ def stocks(update: Update, context: CallbackContext) -> None:
             stock_name = ""
         if(not('-d'==argument or '-p'==argument or stock_name!="")):
             context.bot.send_message(chat_id=update.message.chat_id,
-                                     text="<b>Data missing 😥\n\n</b><em>Please enter appropriate data along with command to get access to the content.\n\n</em><i><u>Syntax</u>:</i><code> /stocks [argument] [stock_name]</code>",
+                                     text="<b>Data missing 😥\n\n</b><em>Please enter appropriate data along with command to get access to the content.\n\n</em><i><u>Syntax</u>:</i><code> /stocks [a[...]
                                      parse_mode="html")
         else:
             if(argument=='-d'):
@@ -223,7 +223,7 @@ def stocks(update: Update, context: CallbackContext) -> None:
                                          parse_mode="html")
             else:
                 context.bot.send_message(chat_id=update.message.chat_id,
-                                        text="<b>Data missing 😥\n\n</b><em>Please enter appropriate data along with command to get access to the content.\n\n</em><i><u>Syntax</u>:</i><code> /stocks [argument] [stock_name]</code>",
+                                        text="<b>Data missing 😥\n\n</b><em>Please enter appropriate data along with command to get access to the content.\n\n</em><i><u>Syntax</u>:</i><code> /stocks[...]
                                         parse_mode="html")
 
 def tips(update: Update, context: CallbackContext) -> None:
@@ -380,7 +380,7 @@ def admin(update: Update, context: CallbackContext) -> None:
     global subscriber_ids
     if(update.message.text == "/admin" or update.message.text == "/admin "):
         context.bot.send_message(chat_id=update.message.chat_id,
-                                 text="<b>Data missing 😥\n\n</b><em>Please enter appropriate data along with command to get access to the content.\n\n</em><i><u>Syntax</u>:</i><code> /admin [argument] [password]</code>",
+                                 text="<b>Data missing 😥\n\n</b><em>Please enter appropriate data along with command to get access to the content.\n\n</em><i><u>Syntax</u>:</i><code> /admin [argume[...]
                                  parse_mode="html")
     else:
         command_list = update.message.text.split()
