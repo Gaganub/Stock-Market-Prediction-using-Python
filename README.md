@@ -92,8 +92,4 @@ This solution addresses a critical market need by:
 
 ## Contact & Collaboration
 
-For partnership opportunities, technical inquiries, or investment discussions, please reach out through the repository's issue tracker or contact the development team directly.
-
----
-
-This project represents a significant step forward in making sophisticated financial analysis accessible to all investors, regardless of their experience level.
+For partnership opportunities, technical inquiries, or investment discussions, please reach out through the repository's issue tracker or contact the development team directly. Or for any queries, mail me at gaganbiradar.21@icloud.com
