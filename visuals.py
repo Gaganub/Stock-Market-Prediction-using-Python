@@ -7,30 +7,41 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
+import pandas as pd
 
-def plot_distribution(data, transformed=False):
+def plot_capital_features_distribution(data: pd.DataFrame, transformed: bool = False) -> None:
     """
-    Plots the distributions of 'capital-gain' and 'capital-loss' features.
+    Plots the distributions for 'capital-gain' and 'capital-loss' features.
+
     Args:
         data (pd.DataFrame): The dataset containing the features.
-        transformed (bool): If True, indicates log-transformed data.
+        transformed (bool, optional): Flag indicating if the data is 
+                                      log-transformed. Defaults to False.
     """
-    fig, axes = plt.subplots(1, 2, figsize=(11, 5))
+    # Create subplots
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
     features = ['capital-gain', 'capital-loss']
-    for idx, feature in enumerate(features):
-        axes[idx].hist(data[feature], bins=25, color='#00A0A0')
-        axes[idx].set_title(f"'{feature}' Feature Distribution", fontsize=14)
-        axes[idx].set_xlabel("Value")
-        axes[idx].set_ylabel("Number of Records")
-        axes[idx].set_ylim((0, 2000))
-        axes[idx].set_yticks([0, 500, 1000, 1500, 2000])
-        axes[idx].set_yticklabels([0, 500, 1000, 1500, ">2000"])
-    title = "Log-transformed Distributions of Continuous Census Data Features" \
-        if transformed else "Skewed Distributions of Continuous Census Data Features"
-    fig.suptitle(title, fontsize=16, y=1.03)
+    plot_color = '#00A0A0'
+
+    # Iterate over features and axes together
+    for ax, feature in zip(axes, features):
+        ax.hist(data[feature], bins=25, color=plot_color)
+        ax.set_title(f"'{feature}' Feature Distribution", fontsize=14)
+        ax.set_xlabel("Value")
+        ax.set_ylabel("Number of Records")
+        
+        # Set custom y-axis to handle high skewness
+        ax.set_ylim((0, 2000))
+        ax.set_yticks([0, 500, 1000, 1500, 2000])
+        ax.set_yticklabels([0, 500, 1000, 1500, ">2000"])
+
+    # Set the main title for the figure
+    title_prefix = "Log-Transformed" if transformed else "Skewed"
+    fig.suptitle(f"{title_prefix} Distributions of Continuous Census Data Features", 
+                 fontsize=16, y=1.03)
+
     fig.tight_layout()
     plt.show()
-
 def plot_evaluation(results, accuracy, f1):
     """
     Plots evaluation metrics for different learners.
