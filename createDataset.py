@@ -113,15 +113,17 @@ def main() -> None:
             opinion.append("bad")
         #-----------------------------------------------------------------------------------------------------
         
-    data = {'stock_symbol':stock_symbol,
-            'stock_name':stock_name,
-            'stock_industry':stock_industry,
-            'stock_market_cap':stock_market_cap,
-            'stock_risk_level':stock_risk_level,
-            'opinion':opinion,
-            'stock_ticker_url':stock_ticker_url}
-    
-    writeCSV(data, 'stockDataset_v1.csv')
+    data = {
+    'stock_symbol'      : stock_symbol,
+    'stock_name'        : stock_name,
+    'stock_industry'    : stock_industry,
+    'stock_market_cap'  : stock_market_cap,
+    'stock_risk_level'  : stock_risk_level,
+    'opinion'           : opinion,
+    'stock_ticker_url'  : stock_ticker_url
+}
 
-if __name__ == "__main__": 
+writeCSV(data, "stockDataset_v1.csv")
+
+if __name__ == "__main__":
     main()
