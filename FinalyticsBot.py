@@ -374,99 +374,119 @@ for Id in subscriber_ids:
     subscriber_ids[Id] = list(subscriber_ids[Id])
 #=============================================================================================Admin Functions
 def admin(update: Update, context: CallbackContext) -> None:
+    # Show typing action to user
     context.bot.send_chat_action(chat_id=update.message.chat_id, action="typing")
+    
     originalHash = "a87973c7cf5f564be5abccef41ac8ca35addc4e95580cffa368fd1f70834d7e8"
+
+    # global variables for admins & subscribers
     global admin_ids
     global subscriber_ids
-    if(update.message.text == "/admin" or update.message.text == "/admin "):
-        context.bot.send_message(chat_id=update.message.chat_id,
-                                 text="<b>Data missing 😥\n\n</b><em>Please enter appropriate data along with command to get access to the content.\n\n</em><i><u>Syntax</u>:</i><code> /admin [argume[...]
-                                 parse_mode="html")
-    else:
-        command_list = update.message.text.split()
-        try:
-            argument = command_list[1]
-            hashPwd = hashlib.sha256(command_list[2].encode()).hexdigest()
-        except:
-            hashPwd = "0"            
-        try:
-            message = ""
-            for var in range(3, len(command_list)):
-                message = message + " " + command_list[var]
-            message = message.replace(" ", "%20")
-            message = message.replace("'", "%27")
-            message = "<b>📬 <u>Subsciption Message</u>:</b>"+ "\n\n" + message
-        except:
-            message = ""
-        if(hashPwd == originalHash):
-            if(argument == "-a"):
-                if(update.message.from_user.id not in admin_ids['id']):
-                    admin_ids['id'].append(update.message.from_user.id)
-                    context.bot.send_message(chat_id=update.message.chat_id, 
-                                             text="<b>Access granted 😌</b>", 
-                                             parse_mode="html")
-                else:
-                    context.bot.send_message(chat_id=update.message.chat_id, 
-                                             text="<b>Admin already exist 😁</b>", 
-                                             parse_mode="html")
-            
-            elif(argument == "-c"):
-                admin_ids = {'id': []}
-                writeCSV(admin_ids, 'data/admin_ids.csv')
-                context.bot.send_message(chat_id=update.message.chat_id, 
-                                         text="<b>Admins data cleared and updated 👍🏻</b>", 
+
+    # when command is incomplete
+    if update.message.text.strip() == "/admin":
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text="<b>Data missing 😥\n\n</b><em>Please enter appropriate data along with command to get access to the content.\n\n</em>"
+                 "<i><u>Syntax</u>:</i><code> /admin [argument] [password] [message]</code>",
+            parse_mode="html"
+        )
+        return
+
+    # parse command arguments
+    command_list = update.message.text.split()
+    try:
+        argument = command_list[1]
+        hashPwd = hashlib.sha256(command_list[2].encode()).hexdigest()
+    except Exception:
+        hashPwd = "0"
+
+    # build message (if any)
+    try:
+        message = " ".join(command_list[3:])
+        message = message.replace(" ", "%20").replace("'", "%27")
+        message = "<b>📬 <u>Subscription Message</u>:</b>\n\n" + message
+    except Exception:
+        message = ""
+
+    # check hash password
+    if hashPwd == originalHash:
+        if argument == "-a":
+            if update.message.from_user.id not in admin_ids['id']:
+                admin_ids['id'].append(update.message.from_user.id)
+                context.bot.send_message(chat_id=update.message.chat_id,
+                                         text="<b>Access granted 😌</b>",
                                          parse_mode="html")
-            
-            elif(argument == "-u"):
-                writeCSV(admin_ids, 'data/admin_ids.csv')
-                context.bot.send_message(chat_id=update.message.chat_id, 
-                                         text="<b>Admins data updated 👍🏻</b>", 
+            else:
+                context.bot.send_message(chat_id=update.message.chat_id,
+                                         text="<b>Admin already exists 😁</b>",
                                          parse_mode="html")
-            elif(argument == "-s"):
-                if(update.message.from_user.id in admin_ids['id']):
-                    subscribers_count = len(subscriber_ids['id'])
-                    context.bot.send_message(chat_id=update.message.chat_id, 
-                                             text="At present, total subscribers 👥 are of count " + str(subscribers_count), 
+
+        elif argument == "-c":
+            admin_ids = {'id': []}
+            writeCSV(admin_ids, 'data/admin_ids.csv')
+            context.bot.send_message(chat_id=update.message.chat_id,
+                                     text="<b>Admins data cleared and updated 👍🏻</b>",
+                                     parse_mode="html")
+
+        elif argument == "-u":
+            writeCSV(admin_ids, 'data/admin_ids.csv')
+            context.bot.send_message(chat_id=update.message.chat_id,
+                                     text="<b>Admins data updated 👍🏻</b>",
+                                     parse_mode="html")
+
+        elif argument == "-s":
+            if update.message.from_user.id in admin_ids['id']:
+                subscribers_count = len(subscriber_ids['id'])
+                context.bot.send_message(chat_id=update.message.chat_id,
+                                         text=f"At present, total subscribers 👥 are {subscribers_count}",
+                                         parse_mode="html")
+            else:
+                context.bot.send_message(chat_id=update.message.chat_id,
+                                         text="<b>Oops! You are not added to admin network or else admin details are not updated</b> 🧐",
+                                         parse_mode="html")
+
+        elif argument == "-m":
+            if update.message.from_user.id in admin_ids['id']:
+                if not message or message.strip() == "<b>📬 <u>Subscription Message</u>:</b>\n\n":
+                    context.bot.send_message(chat_id=update.message.chat_id,
+                                             text="Message should not be empty 📃",
+                                             parse_mode="html")
+                elif len(subscriber_ids['id']) == 0:
+                    context.bot.send_message(chat_id=update.message.chat_id,
+                                             text="Oops 😥, we don't have any subscribers.",
                                              parse_mode="html")
                 else:
-                    context.bot.send_message(chat_id=update.message.chat_id, 
-                                             text="<b>Oops! You are not added to admin network or else admin details are not updated</b> 🧐", 
+                    context.bot.send_message(chat_id=update.message.chat_id,
+                                             text=f"Approximate waiting time ⏳ is {len(subscriber_ids['id'])+1} seconds.",
                                              parse_mode="html")
-                    
-            elif(argument == "-m"):
-                if(update.message.from_user.id in admin_ids['id']):
-                    if(message == ""):
-                        context.bot.send_message(chat_id=update.message.chat_id,
-                                                 text="Message should not be empty 📃",
-                                                 parse_mode="html")
-                    elif(len(subscriber_ids['id'])==0):
-                        context.bot.send_message(chat_id=update.message.chat_id,
-                                                 text="Oops 😥, we don't have any subcribers.",
-                                                 parse_mode="html")
-                    else:
-                        context.bot.send_message(chat_id=update.message.chat_id,
-                                                 text="Approximate waiting time ⏳ is " + str(len(subscriber_ids['id'])+1) + " seconds.",
-                                                 parse_mode="html")  
-                        for Id in subscriber_ids['id']:
-                            msg_request = "https://api.telegram.org/bot"+ api_token +"/sendMessage?chat_id=" + str(Id) + "&text=" + message + "&parse_mode=html"
-                            requests.get(msg_request)
-                            time.sleep(1)                 
-                        context.bot.delete_message(update.message.chat_id, update.message.message_id+1)
-                        context.bot.send_message(chat_id=update.message.chat_id,
-                                                 text="Message sent to all subscribers 🙌🏻",
-                                                 parse_mode="html")
-                else:
-                    context.bot.send_message(chat_id=update.message.chat_id, 
-                                             text="<b>Oops! You are not added to admin network or else admin details are not updated</b> 🧐", 
+
+                    for Id in subscriber_ids['id']:
+                        msg_request = (
+                            f"https://api.telegram.org/bot{api_token}/sendMessage?"
+                            f"chat_id={Id}&text={message}&parse_mode=html"
+                        )
+                        requests.get(msg_request)
+                        time.sleep(1)
+
+                    # cleanup & confirmation
+                    context.bot.delete_message(update.message.chat_id, update.message.message_id + 1)
+                    context.bot.send_message(chat_id=update.message.chat_id,
+                                             text="Message sent to all subscribers 🙌🏻",
                                              parse_mode="html")
             else:
-                context.bot.send_message(chat_id=update.message.chat_id, 
-                                         text="Invalid argument ⌨️", 
+                context.bot.send_message(chat_id=update.message.chat_id,
+                                         text="<b>Oops! You are not added to admin network or else admin details are not updated</b> 🧐",
                                          parse_mode="html")
         else:
-            context.bot.send_message(chat_id=update.message.chat_id, 
-                                     text="<b>Unauthorised user, data error 😥</b>", 
-                                     parse_mode="html") 
+            context.bot.send_message(chat_id=update.message.chat_id,
+                                     text="Invalid argument ⌨️",
+                                     parse_mode="html")
+    else:
+        context.bot.send_message(chat_id=update.message.chat_id,
+                                 text="<b>Unauthorised user, data error 😥</b>",
+                                 parse_mode="html")
+
 
 #===============================================================================================Main Function
 def main() -> None:    
