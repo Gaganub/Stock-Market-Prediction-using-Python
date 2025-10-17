@@ -114,15 +114,15 @@ def main() -> None:
         #-----------------------------------------------------------------------------------------------------
         
     data = {
-    'stock_symbol'      : stock_symbol,
-    'stock_name'        : stock_name,
-    'stock_industry'    : stock_industry,
-    'stock_market_cap'  : stock_market_cap,
-    'stock_risk_level'  : stock_risk_level,
-    'opinion'           : opinion,
-    'stock_ticker_url'  : stock_ticker_url
+    'stock_symbol' : stock_symbol,
+    'stock_name' : stock_name,
+    'stock_industry' : stock_industry,
+    'stock_market_cap' : stock_market_cap,
+    'stock_risk_level' : stock_risk_level,
+    'opinion' : opinion,
+    'stock_ticker_url' : stock_ticker_url
 }
-
+#indentation to be followed properly - WARM[1]
 writeCSV(data, "stockDataset_v1.csv")
 
 if __name__ == "__main__":
