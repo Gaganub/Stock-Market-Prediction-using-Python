@@ -59,8 +59,6 @@ An accessible system designed to empower both novice and experienced investors i
 
 ## Technology Stack
 
-*[Add your specific technologies here, for example:]*
-
 - **Backend**: Python, TensorFlow/Scikit-learn
 - **Frontend**: React.js, HTML/CSS
 - **Data Processing**: Pandas, NumPy
@@ -92,4 +90,4 @@ This solution addresses a critical market need by:
 
 ## Contact & Collaboration
 
-For partnership opportunities, technical inquiries, or investment discussions, please reach out through the repository's issue tracker or contact the development team directly. Or for any queries, mail me at gaganbiradar.21@icloud.com
+For any queries and issues, please email me at gaganbiradar.21@icloud.com
