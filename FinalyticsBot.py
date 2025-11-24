@@ -232,7 +232,7 @@ def tips(update: Update, context: CallbackContext) -> None:
                              text=random.choice(tips_list),
                              parse_mode="html")
 
-#===========================================================================================Process Functions
+#=========================================================================================== Process Functions
 def error(update: Update, context: CallbackContext) -> None:
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
