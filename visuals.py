@@ -113,3 +113,6 @@ def plot_feature_importances(importances, X_train):
     plt.legend(loc='upper center')
     plt.tight_layout()
     plt.show()
+
+
+# Visualization module updated
