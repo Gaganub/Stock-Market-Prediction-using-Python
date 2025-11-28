@@ -508,7 +508,6 @@ def main() -> None:
     
     dispatcher.add_handler(CommandHandler("riskprofiletest", riskProfileTest))   
     dispatcher.add_handler(CommandHandler("acceptedstocks", acceptedStocks))
-    dispatcher.add_handler(CommandHandler("stocks", stocks))
     dispatcher.add_handler(CommandHandler("tips", tips))
         
     dispatcher.add_handler(CommandHandler("admin", admin))
@@ -538,7 +537,6 @@ if __name__ == "__main__":
 # Commit 7
 
 # Commit 8
-# C10
 
 
 # C12
@@ -562,3 +560,5 @@ if __name__ == "__main__":
 # FIN_24
 
 # FIN_26
+
+# FIN_27
