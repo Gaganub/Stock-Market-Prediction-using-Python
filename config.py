@@ -1,68 +1,117 @@
-"""
-Configuration module for FinalyticsBot
-Handles all configuration settings and environment variables
-"""
+"""Configuration management for FinalyticsBot.
 
+Centralized configuration module handling application settings,
+environment variables, and runtime parameters.
+"""
 import os
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
+from dataclasses import dataclass
+from pathlib import Path
 
-# API Configuration
-TELEGRAM_API_TOKEN: str = os.getenv('TELEGRAM_API_TOKEN', '1704757799:AAGJRzgiQP-m4YINSAfWrRsYbcikFtTJryo')
 
-# Database Configuration
-DATABASE_HOST: str = os.getenv('DB_HOST', 'localhost')
-DATABASE_PORT: int = int(os.getenv('DB_PORT', 5432))
-DATABASE_NAME: str = os.getenv('DB_NAME', 'finalyticsbot')
+@dataclass
+class DatabaseConfig:
+    """Database configuration."""
+    host: str = "localhost"
+    port: int = 5432
+    name: str = "finalyticsbot"
+    user: str = "postgres"
+    password: str = ""
+    
+    @classmethod
+    def from_env(cls) -> 'DatabaseConfig':
+        """Create config from environment variables."""
+        return cls(
+            host=os.getenv('DB_HOST', 'localhost'),
+            port=int(os.getenv('DB_PORT', '5432')),
+            name=os.getenv('DB_NAME', 'finalyticsbot'),
+            user=os.getenv('DB_USER', 'postgres'),
+            password=os.getenv('DB_PASSWORD', '')
+        )
 
-# File paths
-DATA_DIR: str = os.path.join(os.path.dirname(__file__), 'data')
-LOGS_DIR: str = os.path.join(os.path.dirname(__file__), 'logs')
-CSV_SUBSCRIBER_PATH: str = os.path.join(DATA_DIR, 'subscriber_ids.csv')
-CSV_ADMIN_PATH: str = os.path.join(DATA_DIR, 'admin_ids.csv')
-CSV_DATASET_PATH: str = os.path.join(DATA_DIR, 'stockDataset_v1.csv')
 
-# Logging Configuration
-LOG_LEVEL: str = os.getenv('LOG_LEVEL', 'INFO')
-LOG_FORMAT: str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+@dataclass
+class APIConfig:
+    """API configuration."""
+    api_key: str = ""
+    api_timeout: int = 30
+    max_retries: int = 3
+    base_url: str = "https://api.example.com"
+    
+    @classmethod
+    def from_env(cls) -> 'APIConfig':
+        """Create config from environment variables."""
+        return cls(
+            api_key=os.getenv('API_KEY', ''),
+            api_timeout=int(os.getenv('API_TIMEOUT', '30')),
+            max_retries=int(os.getenv('MAX_RETRIES', '3')),
+            base_url=os.getenv('BASE_URL', 'https://api.example.com')
+        )
 
-# Bot Configuration
-BOT_TIMEOUT: int = int(os.getenv('BOT_TIMEOUT', 30))
-REQUEST_TIMEOUT: int = int(os.getenv('REQUEST_TIMEOUT', 10))
 
-# Risk Profile Configuration
-FINANCIAL_RISK_RANGES: Dict[str, tuple] = {
-    'Very Low': (0, 8),
-    'Low': (8, 12),
-    'Moderate': (12, 15),
-    'High': (15, 17),
-    'Very High': (17, 20)
-}
+@dataclass
+class LoggingConfig:
+    """Logging configuration."""
+    level: str = "INFO"
+    format_str: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    log_file: Optional[str] = None
+    
+    @classmethod
+    def from_env(cls) -> 'LoggingConfig':
+        """Create config from environment variables."""
+        return cls(
+            level=os.getenv('LOG_LEVEL', 'INFO'),
+            format_str=os.getenv('LOG_FORMAT', '%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
+            log_file=os.getenv('LOG_FILE')
+        )
 
-PSYCHOLOGICAL_RISK_RANGES: Dict[str, tuple] = {
-    'Very Low': (0, 6),
-    'Low': (6, 9),
-    'Moderate': (9, 12),
-    'High': (12, 14),
-    'Very High': (14, 15)
-}
 
-# Stock Market Categories
-MARKET_CAP_CATEGORIES: list = ['Largecap', 'Midcap', 'Smallcap']
-RISK_LEVEL_CATEGORIES: list = ['Low Risk', 'Moderate Risk', 'High Risk']
+class Config:
+    """Main configuration manager."""
+    
+    def __init__(self):
+        """Initialize configuration."""
+        self.env = os.getenv('APP_ENV', 'development')
+        self.debug = os.getenv('DEBUG', 'False').lower() == 'true'
+        self.database = DatabaseConfig.from_env()
+        self.api = APIConfig.from_env()
+        self.logging = LoggingConfig.from_env()
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert config to dictionary.
+        
+        Returns:
+            Dictionary representation of configuration.
+        """
+        return {
+            'env': self.env,
+            'debug': self.debug,
+            'database': self.database.__dict__,
+            'api': self.api.__dict__,
+            'logging': self.logging.__dict__
+        }
+    
+    def get(self, key: str, default: Any = None) -> Any:
+        """Get configuration value by key.
+        
+        Args:
+            key: Configuration key (dot-separated for nested access).
+            default: Default value if key not found.
+            
+        Returns:
+            Configuration value or default.
+        """
+        parts = key.split('.')
+        value = self.to_dict()
+        
+        for part in parts:
+            if isinstance(value, dict) and part in value:
+                value = value[part]
+            else:
+                return default
+        
+        return value
 
-# Feature flags
-ENABLE_CACHING: bool = os.getenv('ENABLE_CACHING', 'True').lower() == 'true'
-ENABLE_NOTIFICATIONS: bool = os.getenv('ENABLE_NOTIFICATIONS', 'True').lower() == 'true'
 
-def get_config() -> Dict[str, any]:
-    """Get all configuration as a dictionary"""
-    return {
-        'api_token': TELEGRAM_API_TOKEN,
-        'db_host': DATABASE_HOST,
-        'db_port': DATABASE_PORT,
-        'db_name': DATABASE_NAME,
-        'data_dir': DATA_DIR,
-        'logs_dir': LOGS_DIR,
-        'log_level': LOG_LEVEL,
-        'bot_timeout': BOT_TIMEOUT,
-    }
+# Global config instance
+config = Config()
