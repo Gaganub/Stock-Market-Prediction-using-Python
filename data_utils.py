@@ -142,3 +142,44 @@ def normalize_data(df: pd.DataFrame, columns: List[str] = None) -> pd.DataFrame:
                 df_norm[col] = (df_norm[col] - min_val) / (max_val - min_val)
     
     return df_norm
+
+
+
+# Data Pipeline for fluent API and method chaining
+class DataPipeline:
+    """Fluent interface for composable data transformations."""
+    
+    def __init__(self, data=None):
+        """Initialize pipeline with optional data."""
+        self.data = data
+        self._operations = []
+    
+    def add_operation(self, operation):
+        """Add a transformation operation to the pipeline."""
+        self._operations.append(operation)
+        return self
+    
+    def normalize(self):
+        """Add normalization operation."""
+        def normalize_op(df):
+            return (df - df.mean()) / df.std()
+        self.add_operation(normalize_op)
+        return self
+    
+    def validate(self, rules: dict):
+        """Add validation operation."""
+        def validate_op(df):
+            for col, rule in rules.items():
+                if col in df.columns:
+                    df = df[rule(df[col])]
+            return df
+        self.add_operation(validate_op)
+        return self
+    
+    def execute(self):
+        """Execute all operations in sequence (lazy evaluation)."""
+        result = self.data
+        for operation in self._operations:
+            if result is not None:
+                result = operation(result)
+        return result
