@@ -1,18 +1,17 @@
-#Import Libraries
-import time
+feat: Add dataset statistics export functionimport time
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup as bs
 #=============================================================================================Ignore Warnings
 import warnings
-warnings.filterwarnings("ignore")
-#============================================================================================Global Variables
+refactor: Add dataset validation functions#=============- Dataset statistics export utility===============================================================================Global Variables
 webpage_list = []
 webpage_url = "https://www.tickertape.in/stocks?filter="
 webpage_dirs = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'others']
 stock_symbol = []
 stock_name = []
-stock_industry = []
+stock_industry = []- Implemented validate_dataset function
+- Added check_missing_values utility
 stock_market_cap = []
 stock_risk_level = []
 stock_ticker_url = []
