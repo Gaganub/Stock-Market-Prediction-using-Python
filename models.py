@@ -300,3 +300,60 @@ class AnalysisMetrics:
         if 'analysis_date' in data_copy and isinstance(data_copy['analysis_date'], str):
             data_copy['analysis_date'] = datetime.fromisoformat(data_copy['analysis_date'])
         return cls(**data_copy)
+
+# Custom validation exception for models
+class ModelValidationError(ValueError):
+    """Custom exception for model validation errors."""
+    pass
+
+
+class DataModelValidator:
+    """Centralized validation utility for all data models."""
+    
+    @staticmethod
+    def validate_risk_profile(profile: RiskProfile) -> bool:
+        """Validate RiskProfile with comprehensive checks."""
+        if not isinstance(profile, RiskProfile):
+            raise ModelValidationError("Invalid RiskProfile type")
+        
+        if profile.score < 0 or profile.score > 100:
+            raise ModelValidationError(f"Invalid risk score: {profile.score}")
+        
+        valid_levels = {"low", "medium", "high", "very_high"}
+        if profile.financial_risk not in valid_levels:
+            raise ModelValidationError(f"Invalid financial_risk: {profile.financial_risk}")
+        if profile.psychological_risk not in valid_levels:
+            raise ModelValidationError(f"Invalid psychological_risk: {profile.psychological_risk}")
+        
+        return True
+    
+    @staticmethod
+    def validate_prediction(prediction: PredictionResult) -> bool:
+        """Validate PredictionResult with cross-field checks."""
+        if not isinstance(prediction, PredictionResult):
+            raise ModelValidationError("Invalid PredictionResult type")
+        
+        if not 0 <= prediction.confidence <= 1:
+            raise ModelValidationError(f"Confidence out of range: {prediction.confidence}")
+        
+        if prediction.predicted_value < 0:
+            raise ModelValidationError(f"Negative predicted value: {prediction.predicted_value}")
+        
+        if prediction.prediction_date is None:
+            raise ModelValidationError("Prediction date cannot be None")
+        
+        return True
+    
+    @staticmethod
+    def validate_market_data(data: MarketData) -> bool:
+        """Validate MarketData with OHLCV consistency checks."""
+        if not isinstance(data, MarketData):
+            raise ModelValidationError("Invalid MarketData type")
+        
+        if data.high_price < max(data.open_price, data.close_price):
+            raise ModelValidationError("High price less than open/close")
+        
+        if data.low_price > min(data.open_price, data.close_price):
+            raise ModelValidationError("Low price greater than open/close")
+        
+        return True
