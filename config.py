@@ -115,3 +115,39 @@ class Config:
 
 # Global config instance
 config = Config()
+
+
+# Environment-specific configuration
+class EnvironmentConfig:
+    """Configuration handler for different environments."""
+    
+    @staticmethod
+    def get_config(env: str = 'development'):
+        """Load configuration for specified environment."""
+        envs = {
+            'development': {
+                'debug': True,
+                'db_pool_size': 5,
+                'cache_ttl': 300,
+                'log_level': 'DEBUG'
+            },
+            'production': {
+                'debug': False,
+                'db_pool_size': 20,
+                'cache_ttl': 3600,
+                'log_level': 'INFO'
+            },
+            'testing': {
+                'debug': True,
+                'db_pool_size': 1,
+                'cache_ttl': 60,
+                'log_level': 'DEBUG'
+            }
+        }
+        return envs.get(env, envs['development'])
+    
+    @staticmethod
+    def validate_config(config: dict) -> bool:
+        """Validate configuration settings."""
+        required_keys = ['debug', 'db_pool_size', 'cache_ttl', 'log_level']
+        return all(key in config for key in required_keys)
