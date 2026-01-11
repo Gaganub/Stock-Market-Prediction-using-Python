@@ -1,5 +1,11 @@
-feat: Add dataset statistics export functionimport time
-import requests
+"""Dataset creation and statistics export utility module.
+
+Version: 3.0
+Date: January 2026
+Description: Provides comprehensive dataset statistics export functionality.
+"""
+
+feat: Add dataset statistics export functionimport requests
 import pandas as pd
 from bs4 import BeautifulSoup as bs
 #=============================================================================================Ignore Warnings
