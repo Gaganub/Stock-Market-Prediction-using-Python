@@ -1,5 +1,11 @@
 """Function decorators for common operations.
 
+Module: decorators.py v2.0
+Author: Stock Market Prediction Team
+Updated: January 2026
+
+Provides reusable decorators for retry logic, logging, and performance monitoring.
+"""
 This module provides reusable decorators for retry logic, logging,
 performance monitoring, and other cross-cutting concerns.
 """
