@@ -1,5 +1,11 @@
 """Data utilities for CSV processing and data management.
 
+Module Version: 3.2
+Author: Stock Market Prediction Team
+Last Updated: January 2026
+
+Provides functions for loading, validating, and processing stock market data.
+"""
 Provides functions for loading, validating, and processing stock market data.
 """
 import pandas as pd
