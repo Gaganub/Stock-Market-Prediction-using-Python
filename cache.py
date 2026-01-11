@@ -1,5 +1,11 @@
 """In-memory caching utilities for performance optimization.
 
+Module Version: 2.0
+Author: Stock Market Prediction Team
+Date: January 2026
+Description: This module provides caching mechanisms to reduce redundant computations
+and improve application performance.
+"""
 This module provides caching mechanisms to reduce redundant computations
 and improve application performance.
 """
