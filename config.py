@@ -1,15 +1,12 @@
 """Configuration management for FinalyticsBot.
 
 Module: config.py
-Version: 2.1
-Last Updated: January 2026
+Version: 2.2
+Last Updated: March 2026
 Author: Stock Market Prediction Team
 
 Provides centralized configuration management for handling application settings,
 environment variables, database connections, and runtime parameters.
-"""
-Centralized configuration module handling application settings,
-environment variables, and runtime parameters.
 """
 import os
 from typing import Dict, Optional, Any
@@ -79,18 +76,15 @@ class Config:
     
     def __init__(self):
         """Initialize configuration."""
-        self.env = os.getenv('APP_ENV', 'development')
-        self.debug = os.getenv('DEBUG', 'False').lower() == 'true'
+        self.env = os.getenv('APP_ENV', 'development').strip().lower()
+        # Robust boolean parsing
+        self.debug = os.getenv('DEBUG', 'False').strip().lower() == 'true'
         self.database = DatabaseConfig.from_env()
         self.api = APIConfig.from_env()
         self.logging = LoggingConfig.from_env()
     
     def to_dict(self) -> Dict[str, Any]:
-        """Convert config to dictionary.
-        
-        Returns:
-            Dictionary representation of configuration.
-        """
+        """Convert config to dictionary."""
         return {
             'env': self.env,
             'debug': self.debug,
@@ -100,21 +94,15 @@ class Config:
         }
     
     def get(self, key: str, default: Any = None) -> Any:
-        """Get configuration value by key.
-        
-        Args:
-            key: Configuration key (dot-separated for nested access).
-            default: Default value if key not found.
-            
-        Returns:
-            Configuration value or default.
-        """
+        """Get configuration value by key (dot-separated for nested access)."""
         parts = key.split('.')
         value = self.to_dict()
         
         for part in parts:
-            if isinstance(value, dict) and part in value:
-                value = value[part]
+            if isinstance(value, dict):
+                value = value.get(part)
+                if value is None:
+                    return default
             else:
                 return default
         
@@ -155,7 +143,7 @@ class EnvironmentConfig:
         return envs.get(env, envs['development'])
     
     @staticmethod
-    def validate_config(config: dict) -> bool:
+    def validate_config(cfg: dict) -> bool:
         """Validate configuration settings."""
         required_keys = ['debug', 'db_pool_size', 'cache_ttl', 'log_level']
-        return all(key in config for key in required_keys)
+        return all(key in cfg for key in required_keys)
