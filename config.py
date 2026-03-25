@@ -1,13 +1,3 @@
-"""Configuration management for FinalyticsBot.
-
-Module: config.py
-Version: 2.2
-Last Updated: March 2026
-Author: Stock Market Prediction Team
-
-Provides centralized configuration management for handling application settings,
-environment variables, database connections, and runtime parameters.
-"""
 import os
 from typing import Dict, Optional, Any
 from dataclasses import dataclass
