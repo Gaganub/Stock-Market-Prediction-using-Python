@@ -127,3 +127,32 @@ def cache_result(ttl: int = 3600):
 
 
 
+#Update: 
+
+# Memoization decorator with TTL and statistics
+def memoize(ttl: int = 3600):
+    """Decorator for caching function results with TTL support."""
+    def decorator(func):
+        cache = {}
+        timestamps = {}
+        stats = {'hits': 0, 'misses': 0}
+        
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            key = str((args, sorted(kwargs.items())))
+            now = time.time()
+            
+            if key in cache and (now - timestamps[key]) < ttl:
+                stats['hits'] += 1
+                return cache[key]
+            
+            stats['misses'] += 1
+            result = func(*args, **kwargs)
+            cache[key] = result
+            timestamps[key] = now
+            return result
+        
+        wrapper.cache_stats = lambda: stats
+        wrapper.clear_cache = lambda: (cache.clear(), timestamps.clear())
+        return wrapper
+    return decorator
